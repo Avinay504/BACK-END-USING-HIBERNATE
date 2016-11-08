@@ -15,7 +15,7 @@
   </properties>
 
 <dependencies>
-		<!-- Spring -->
+	
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -122,9 +122,7 @@
 			<version>4.0.0.RELEASE</version> 
 		</dependency> 
 
-		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
-		<!-- <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-api</artifactId> 
-			<version>1.7.21</version> </dependency> -->
+		
 
 
 </dependencies>

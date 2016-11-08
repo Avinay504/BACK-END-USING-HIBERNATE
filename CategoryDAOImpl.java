@@ -2,12 +2,9 @@ package com.niit.shoppingcart.dao.impl;
 
 import java.util.List;
 
-
-
 import org.hibernate.HibernateException;
-
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,11 +14,14 @@ import com.niit.shoppingcart.model.Category;
 
 @Repository("categoryDAO")
 public class CategoryDAOImpl implements CategoryDAO {
-
-	
 	
 	@Autowired
 	SessionFactory sessionFactory;
+	
+	public CategoryDAOImpl()
+	{
+		
+	}
 	
 	public CategoryDAOImpl(SessionFactory sessionFactory)
 	{
@@ -31,7 +31,11 @@ public class CategoryDAOImpl implements CategoryDAO {
     @Transactional
 	public boolean save(Category category) {
 	    try {
-	    	sessionFactory.getCurrentSession().save(category);
+	    	if (get (category.getId())!=null)
+	    	{
+	    		return false;
+	    	}
+	    	sessionFactory.openSession().save(category);
              return true;
 		} catch (HibernateException e) {
 			// TODO Auto-generated method stub
@@ -43,7 +47,7 @@ public class CategoryDAOImpl implements CategoryDAO {
     @Transactional
 	public boolean update(Category category) {
 		try {
-	    	sessionFactory.getCurrentSession().update(category);
+		    sessionFactory.openSession().update(category);
              return true;
 		} catch (HibernateException e) {
 			// TODO Auto-generated method stub
@@ -55,7 +59,7 @@ public class CategoryDAOImpl implements CategoryDAO {
     @Transactional
 	public boolean delete(Category category) {
 		try {
-	    	sessionFactory.getCurrentSession().delete(category);
+	    	sessionFactory.openSession().delete(category);
              return true;
 		} catch (HibernateException e) {
 			// TODO Auto-generated method stub
@@ -65,19 +69,23 @@ public class CategoryDAOImpl implements CategoryDAO {
 		}
     }
 	public Category get (String id){
-		return sessionFactory.getCurrentSession().get(Category.class,id);
+		return(Category) sessionFactory.openSession().get(Category.class,id);
 		
 	}
 
-	public List<Category> list() {
-		
-	    String hql="from Category";
+	    public List<Category> list() {
+	    	//select * from category
 	    
-		Query query=sessionFactory.getCurrentSession().createQuery(hql);
-		
-		// TODO Auto-generated method stub
-		return query.list();
+	    	String hql="from Category";
+	    //we need to change hql into db specific query
+	    
+	    	Query query=(Query) sessionFactory.openSession();
+            return  query.list();
 	}
+	    
+
+		
+		
 }
 	
 	

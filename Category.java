@@ -5,10 +5,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 @Entity
 @Table(name="category")
 @Component
+
 public class Category {
 	@Id
 	private String id;
